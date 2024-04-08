@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:bubadibako/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -15,6 +18,39 @@ class _ExamScreenState extends State<ExamScreen> {
   bool isSelectD = false;
   bool isSelectE = false;
 
+  late Timer _timer;
+  int duration = 3600;
+
+  void startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (duration == 0) {
+        timer.cancel();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const LoginScreen(),
+            ));
+      } else {
+        setState(() {
+          duration--;
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _timer.cancel();
+    super.dispose();
+  }
+
   void pilihJawaban(String pilihan) {
     setState(() {
       isSelectA = false;
@@ -28,23 +64,19 @@ class _ExamScreenState extends State<ExamScreen> {
       setState(() {
         isSelectA = true;
       });
-    }
-    else if (pilihan == 'B') {
+    } else if (pilihan == 'B') {
       setState(() {
         isSelectB = true;
       });
-    }
-    else if (pilihan == 'C') {
+    } else if (pilihan == 'C') {
       setState(() {
         isSelectC = true;
       });
-    }
-    else if (pilihan == 'D') {
+    } else if (pilihan == 'D') {
       setState(() {
         isSelectD = true;
       });
-    }
-    else if (pilihan == 'E') {
+    } else if (pilihan == 'E') {
       setState(() {
         isSelectE = true;
       });
@@ -54,30 +86,37 @@ class _ExamScreenState extends State<ExamScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFDDD0BD),
+      backgroundColor: const Color(0xFFDDD0BD),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset("assets/images/logo.png", width: 55, height: 53),
+                    Image.asset("assets/images/logo.png",
+                        width: 55, height: 53),
                     Container(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Color(0xFF18273D),
+                        color: const Color(0xFF18273D),
                         borderRadius: BorderRadius.circular(11),
                       ),
-                      child: Text('69 : 69', style: TextStyle(fontSize: 28  , color: Colors.white, fontWeight: FontWeight.bold),),
+                      child: Text(
+                        '${(duration ~/ 60).toString().length == 1 ? '0' + (duration ~/ 60).toString() : (duration ~/ 60)} : ${(duration % 60).toString().length == 1 ? '0' + (duration % 60).toString() : (duration % 60)}',
+                        style: const TextStyle(
+                            fontSize: 28,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(height: 23),
+                const SizedBox(height: 23),
                 Container(
-                  padding: EdgeInsets.only(left: 26, right: 26, top: 20),
+                  padding: const EdgeInsets.only(left: 26, right: 26, top: 20),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(16),
@@ -85,8 +124,11 @@ class _ExamScreenState extends State<ExamScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('1 + 1 = ...', style: TextStyle(fontSize: 20),),
-                      SizedBox(height: 24),
+                      const Text(
+                        '1 + 1 = ...',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      const SizedBox(height: 24),
                       GestureDetector(
                         onTap: () {
                           pilihJawaban('A');
@@ -94,19 +136,30 @@ class _ExamScreenState extends State<ExamScreen> {
                         child: Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Color(isSelectA ? 0xFF0000FF : 0xFF18273D),
+                                color:
+                                    Color(isSelectA ? 0xFF0000FF : 0xFF18273D),
                               ),
-                              child: Text('A', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                              child: const Text(
+                                'A',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
-                            SizedBox(width: 8),
-                            Text('3', style: TextStyle(fontSize: 18),),
+                            const SizedBox(width: 8),
+                            const Text(
+                              '3',
+                              style: TextStyle(fontSize: 18),
+                            ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 14),
+                      const SizedBox(height: 14),
                       GestureDetector(
                         onTap: () {
                           pilihJawaban('B');
@@ -114,19 +167,30 @@ class _ExamScreenState extends State<ExamScreen> {
                         child: Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Color(isSelectB ? 0xFF0000FF : 0xFF18273D),
+                                color:
+                                    Color(isSelectB ? 0xFF0000FF : 0xFF18273D),
                               ),
-                              child: Text('B', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                              child: const Text(
+                                'B',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
-                            SizedBox(width: 8),
-                            Text('2', style: TextStyle(fontSize: 18),),
+                            const SizedBox(width: 8),
+                            const Text(
+                              '2',
+                              style: TextStyle(fontSize: 18),
+                            ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 14),
+                      const SizedBox(height: 14),
                       GestureDetector(
                         onTap: () {
                           pilihJawaban('C');
@@ -134,19 +198,30 @@ class _ExamScreenState extends State<ExamScreen> {
                         child: Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Color(isSelectC ? 0xFF0000FF : 0xFF18273D),
+                                color:
+                                    Color(isSelectC ? 0xFF0000FF : 0xFF18273D),
                               ),
-                              child: Text('C', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                              child: const Text(
+                                'C',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
-                            SizedBox(width: 8),
-                            Text('1', style: TextStyle(fontSize: 18),),
+                            const SizedBox(width: 8),
+                            const Text(
+                              '1',
+                              style: TextStyle(fontSize: 18),
+                            ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 14),
+                      const SizedBox(height: 14),
                       GestureDetector(
                         onTap: () {
                           pilihJawaban('D');
@@ -154,19 +229,30 @@ class _ExamScreenState extends State<ExamScreen> {
                         child: Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Color(isSelectD ? 0xFF0000FF : 0xFF18273D),
+                                color:
+                                    Color(isSelectD ? 0xFF0000FF : 0xFF18273D),
                               ),
-                              child: Text('D', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                              child: const Text(
+                                'D',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
-                            SizedBox(width: 8),
-                            Text('0', style: TextStyle(fontSize: 18),),
+                            const SizedBox(width: 8),
+                            const Text(
+                              '0',
+                              style: TextStyle(fontSize: 18),
+                            ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 14),
+                      const SizedBox(height: 14),
                       GestureDetector(
                         onTap: () {
                           pilihJawaban('E');
@@ -174,15 +260,26 @@ class _ExamScreenState extends State<ExamScreen> {
                         child: Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Color(isSelectE ? 0xFF0000FF : 0xFF18273D),
+                                color:
+                                    Color(isSelectE ? 0xFF0000FF : 0xFF18273D),
                               ),
-                              child: Text('E', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                              child: const Text(
+                                'E',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
-                            SizedBox(width: 8),
-                            Text('11', style: TextStyle(fontSize: 18),),
+                            const SizedBox(width: 8),
+                            const Text(
+                              '11',
+                              style: TextStyle(fontSize: 18),
+                            ),
                           ],
                         ),
                       ),
@@ -190,33 +287,54 @@ class _ExamScreenState extends State<ExamScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GestureDetector(
-                            child: Text('< ', style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),),
+                            child: const Text(
+                              '< ',
+                              style: TextStyle(
+                                  fontSize: 48, fontWeight: FontWeight.bold),
+                            ),
                           ),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                             decoration: BoxDecoration(
-                              color: Color(0xFF18273D),
+                              color: const Color(0xFF18273D),
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Text('01', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white),),
+                            child: const Text(
+                              '01',
+                              style: TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
                           ),
                           GestureDetector(
-                            child: Text(' >', style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),),
+                            child: const Text(
+                              ' >',
+                              style: TextStyle(
+                                  fontSize: 48, fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ],
                       )
                     ],
                   ),
                 ),
-                SizedBox(height: 33),
+                const SizedBox(height: 33),
                 GestureDetector(
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 14),
                     decoration: BoxDecoration(
-                      color: Color(0xFF18273D),
+                      color: const Color(0xFF18273D),
                       borderRadius: BorderRadius.circular(13),
                     ),
-                    child: Text('Pilih Soal', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),),
+                    child: const Text(
+                      'Pilih Soal',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
                   ),
                 ),
               ],
