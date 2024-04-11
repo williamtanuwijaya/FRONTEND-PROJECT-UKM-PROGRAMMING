@@ -321,6 +321,63 @@ class _ExamScreenState extends State<ExamScreen> {
                 ),
                 const SizedBox(height: 33),
                 GestureDetector(
+                  onTap: () async {
+                    return showDialog(
+                      context: context,
+                      builder: (context) {
+                        return SimpleDialog(
+                          backgroundColor: Color(0xFFDDD0BD),
+                          children: [
+                            SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  for (int i = 0; i < 5; i++) ...[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        for (int j = i * 5;
+                                            j < i * 5 + 5;
+                                            j++) ...[
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(8),
+                                              margin: EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white
+                                                    .withOpacity(0.5),
+                                              ),
+                                              child: Text(
+                                                  '${(j + 1).toString().length == 1 ? '0' + (j + 1).toString() : (j + 1).toString()}'),
+                                            ),
+                                          ),
+                                        ]
+                                      ],
+                                    ),
+                                  ]
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Center(child: Text('Tutup')),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 14),
