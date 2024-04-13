@@ -15,12 +15,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void submitInput() async {
     if (_idController.text.isEmpty || _passwordController.text.isEmpty) {
-      _errorText = "Input ID atau Password tidak boleh kosong";
+      setState(() {
+        _errorText = "Input ID atau Password tidak boleh kosong";
+      });
       return;
     }
 
     final String _idSiswa = _idController.text;
-    final String _password = _passwordController.text;  
+    final String _password = _passwordController.text;
   }
 
   @override
@@ -33,12 +35,14 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.all(19),
             margin: const EdgeInsets.symmetric(horizontal: 17, vertical: 161),
             decoration: BoxDecoration(
-              color: const Color(0x7DFFFFFF),
-              borderRadius: BorderRadius.circular(40)
-            ),
+                color: const Color(0x7DFFFFFF),
+                borderRadius: BorderRadius.circular(40)),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset("assets/images/logo.png", width: 132, height: 127),
+                Center(
+                    child: Image.asset("assets/images/logo.png",
+                        width: 132, height: 127)),
                 const SizedBox(height: 26),
                 Container(
                   decoration: BoxDecoration(
@@ -53,10 +57,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   child: TextField(
+                    onTap: () {
+                      setState(() {
+                        _errorText = "";
+                      });
+                    },
                     controller: _idController,
                     decoration: InputDecoration(
                       hintText: "ID Siswa",
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(7), borderSide: BorderSide.none),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(7),
+                          borderSide: BorderSide.none),
                       fillColor: const Color(0x4AFFFFFF),
                     ),
                   ),
@@ -75,26 +86,47 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   child: TextField(
+                    onTap: () {
+                      setState(() {
+                        _errorText = "";
+                      });
+                    },
                     controller: _passwordController,
                     decoration: InputDecoration(
                       hintText: "Password",
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(7), borderSide: BorderSide.none),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(7),
+                          borderSide: BorderSide.none),
                       fillColor: const Color(0x4AFFFFFF),
                     ),
+                    obscureText: true,
                   ),
                 ),
+                if (_errorText.isNotEmpty) ...[
+                  const SizedBox(height: 10),
+                  Text(
+                    _errorText,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ],
                 const SizedBox(height: 30),
-                GestureDetector(
-                  onTap: () {
-                    submitInput();
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 33),
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(7)
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      submitInput();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 33),
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(7)),
+                      child: const Text(
+                        'LOGIN',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    child: const Text('LOGIN', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                   ),
                 ),
                 const SizedBox(height: 33),
