@@ -1,3 +1,4 @@
+import 'package:bubadibako/screens/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -23,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final String _idSiswa = _idController.text;
     final String _password = _passwordController.text;
+    Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardScreen()));
   }
 
   @override
